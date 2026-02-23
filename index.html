@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Open Link</title>
+  <title>Copy Link</title>
   <style>
     * {
       margin: 0;
@@ -98,57 +98,6 @@
       color: #0066cc;
     }
 
-    /* دکمه‌های مرورگر */
-    .browser-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .browser-btn {
-      flex: 1;
-      border: none;
-      border-radius: 18px;
-      padding: 14px 0;
-      font-size: 14px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-    }
-
-    .browser-btn:active {
-      transform: scale(0.97);
-    }
-
-    .browser-btn i {
-      font-size: 16px;
-    }
-
-    .chrome-btn {
-      background: #f3f6fc;
-      color: #1a73e8;
-      border: 1px solid #e2eaf0;
-    }
-
-    .chrome-btn:active {
-      background: #e8f0fe;
-    }
-
-    .firefox-btn {
-      background: #f3f6fc;
-      color: #ff7139;
-      border: 1px solid #e2eaf0;
-    }
-
-    .firefox-btn:active {
-      background: #e8f0fe;
-    }
-
     /* دکمه کپی */
     .copy-btn {
       width: 100%;
@@ -165,7 +114,7 @@
       gap: 10px;
       cursor: pointer;
       transition: all 0.2s ease;
-      margin: 0 0 16px;
+      margin: 20px 0 16px;
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
 
@@ -261,18 +210,6 @@
       font-weight: 400;
       letter-spacing: 0.2px;
     }
-
-    .warning-text {
-      color: #d32f2f;
-      font-size: 12px;
-      margin: 8px 0 16px;
-      text-align: center;
-      font-weight: 400;
-      background: #ffebee;
-      padding: 10px;
-      border-radius: 30px;
-      border: 1px solid #ffcdd2;
-    }
   </style>
 </head>
 <body>
@@ -281,27 +218,17 @@
     <div class="header-icon">🔗</div>
 
     <!-- عنوان و توضیح -->
-    <h1>Open link</h1>
+    <h1>Copy & open</h1>
     <p class="description">
-      This link works best in Chrome or Firefox
+      Copy the link and open it in Chrome or Firefox
     </p>
 
     <!-- کارت لینک -->
     <div class="link-card">
       <span class="link-label">🔗 LINK</span>
       <div class="url-box" id="urlDisplay">
-        <span>https://</span>my-account.lxb.ir
+        <span>https://</span>exooweb.lxb.ir
       </div>
-    </div>
-
-    <!-- دکمه‌های مرورگر -->
-    <div class="browser-buttons">
-      <button class="browser-btn chrome-btn" id="chromeBtn">
-        <i>📱</i> Chrome
-      </button>
-      <button class="browser-btn firefox-btn" id="firefoxBtn">
-        <i>🦊</i> Firefox
-      </button>
     </div>
 
     <!-- دکمه کپی -->
@@ -314,11 +241,6 @@
       ✓ Copied to clipboard
     </div>
 
-    <!-- هشدار (فقط برای کاربرانی که با مرورگر نامناسب اومدن) -->
-    <div class="warning-text" id="warningMsg" style="display: none;">
-      ⚠️ You're using an unsupported browser. Please copy the link and open it in Chrome or Firefox.
-    </div>
-
     <!-- راهنمای سریع -->
     <div class="guide">
       <div class="guide-title">
@@ -327,15 +249,15 @@
       <div class="guide-steps">
         <div class="step">
           <div class="step-number">1</div>
-          <div class="step-text">Tap <strong>Chrome</strong> or <strong>Firefox</strong> button</div>
+          <div class="step-text">Tap <strong>Copy link</strong></div>
         </div>
         <div class="step">
           <div class="step-number">2</div>
-          <div class="step-text">If that doesn't work, <strong>Copy link</strong></div>
+          <div class="step-text">Open <strong>Chrome</strong> or <strong>Firefox</strong></div>
         </div>
         <div class="step">
           <div class="step-number">3</div>
-          <div class="step-text">Paste in browser & press Enter</div>
+          <div class="step-text">Paste & press Enter</div>
         </div>
       </div>
     </div>
@@ -347,59 +269,8 @@
   </div>
 
   <script>
-    const TARGET_URL = "https://my-account.lxb.ir";
+    const TARGET_URL = "https://exooweb.lxb.ir";
     
-    // تشخیص مرورگر
-    function isChromeOrFirefox() {
-      const ua = navigator.userAgent.toLowerCase();
-      const isChrome = !!window.chrome && navigator.vendor?.toLowerCase().includes('google') && !/edg\//.test(ua) && !/opr\//.test(ua);
-      const isFirefox = /firefox|fxios/.test(ua);
-      return isChrome || isFirefox;
-    }
-
-    // تشخیص تلگرام
-    function isTelegram() {
-      const ua = navigator.userAgent.toLowerCase();
-      return ua.indexOf('telegram') > -1 || ua.indexOf('telegraph') > -1;
-    }
-
-    // نمایش هشدار برای مرورگرهای نامناسب
-    if (!isChromeOrFirefox() || isTelegram()) {
-      document.getElementById('warningMsg').style.display = 'block';
-    }
-
-    // تابع باز کردن لینک
-    function openInBrowser(browserType) {
-      if (/Android/i.test(navigator.userAgent)) {
-        let intentUrl = TARGET_URL;
-        
-        if (browserType === 'chrome') {
-          intentUrl = `intent://${TARGET_URL.replace('https://', '').replace('http://', '')}#Intent;scheme=https;package=com.android.chrome;end`;
-        } else if (browserType === 'firefox') {
-          intentUrl = `intent://${TARGET_URL.replace('https://', '').replace('http://', '')}#Intent;scheme=https;package=org.mozilla.firefox;end`;
-        }
-        
-        window.location.href = intentUrl;
-        
-        setTimeout(() => {
-          window.open(TARGET_URL, '_blank');
-        }, 500);
-      } else {
-        window.open(TARGET_URL, '_blank');
-      }
-    }
-
-    // دکمه کروم
-    document.getElementById('chromeBtn').onclick = function() {
-      openInBrowser('chrome');
-    };
-
-    // دکمه فایرفاکس
-    document.getElementById('firefoxBtn').onclick = function() {
-      openInBrowser('firefox');
-    };
-    
-    // دکمه کپی
     document.getElementById('copyBtn').onclick = async function() {
       try {
         await navigator.clipboard.writeText(TARGET_URL);
